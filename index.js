@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 80;
 const chromium = require("@sparticuz/chromium");
 const connectDB = require('./db.config');
 const { config } = require('dotenv');
