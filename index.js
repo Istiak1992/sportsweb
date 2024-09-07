@@ -25,6 +25,11 @@ app.use('/api/match', matchRoutes);
 app.use('/api/stats-corner', statsRoutes);
 app.use('/api/player-profile', playerRoutes);
 app.use('/api/nav', navRoutes);
+app.use(cors({
+    origin: ['http://localhost:3000', 'https://cricfancy.com', 'https://backend.cricfancy.com','http://cricfancy.com', 'http://backend.cricfancy.com'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+}));
 
 
 
