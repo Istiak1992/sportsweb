@@ -13,6 +13,7 @@ const scrapeNewsBlogs = async (clicks = 0) => {
 
         await page.goto('https://crex.live/', { waitUntil: 'networkidle2' });
         await page.waitForSelector('section.news-topic-wrapper');
+        await page.waitForSelector(".news-card")
 
         if (clicks) {
             for (let i = 0; i < clicks; i++) {
