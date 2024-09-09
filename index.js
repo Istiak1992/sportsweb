@@ -11,8 +11,9 @@ const fixturesRoutes = require('./routes/fixtureRoutes');
 const rankingRoutes = require('./routes/rankingRoutes');
 const playerRoutes = require('./routes/playerRoutes');
 const navRoutes = require('./routes/navRoutes');
+const { closeBrowser } = require('./utility');
 
-config()
+config();
 app.use(cors())
 app.use(express.json())
 
@@ -25,14 +26,23 @@ app.use('/api/match', matchRoutes);
 app.use('/api/stats-corner', statsRoutes);
 app.use('/api/player-profile', playerRoutes);
 app.use('/api/nav', navRoutes);
-app.use(cors({
-    origin: ['http://localhost:3000', 'https://cricfancy.com', 'https://backend.cricfancy.com','http://cricfancy.com', 'http://backend.cricfancy.com'],
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE']
-}));
 
 
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
 
-app.listen(PORT, '0.0.0.0', () => {
+const server = app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
+});
+
+// Graceful shutdown
+process.on('SIGINT', async () => {
+    console.log('Shutting down server...');
+    await closeBrowser();
+    server.close(() => {
+        console.log('Server shut down');
+        process.exit(0);
+    });
 });
